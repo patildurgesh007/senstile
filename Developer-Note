@@ -1,0 +1,5 @@
+Changes and Improvements done
+1. Follow SOLID priciples while development.
+2. Refactor code by removing hard coded value in to Constants.
+3. Provider moved to database from Java classes. This will help to achieve Open Close Principle. Addition of providers is easy.
+4. Handle async operations using EventListners. Where Order Delivery status will get updated if Order gets Delivered/Failed.
