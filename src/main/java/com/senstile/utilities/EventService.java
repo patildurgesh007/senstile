@@ -27,13 +27,12 @@ public class EventService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        deliveryOrder.setStatus(OrderStatus.COMPLETE);
-//        int randomNumber = new Random().nextInt(3);
-//        if(randomNumber<8) {
-//            deliveryOrder.setStatus(OrderStatus.COMPLETE);
-//        }else {
-//            deliveryOrder.setStatus(OrderStatus.FAILED);
-//        }
+        int randomNumber = new Random().nextInt(10);
+        if(randomNumber<8) {
+            deliveryOrder.setStatus(OrderStatus.COMPLETE);
+        }else {
+            deliveryOrder.setStatus(OrderStatus.FAILED);
+        }
         publisher.publishEvent(new DeliveryOrderEvent(deliveryOrder));
     }
 

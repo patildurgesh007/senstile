@@ -66,7 +66,7 @@ public class DeliveryOrderService {
                 .forEach(this::processOrder);
     }
 
-    private void processOrder(DeliveryOrder deliveryOrder) {
+    public void processOrder(DeliveryOrder deliveryOrder) {
         Address address = addressRepository.findById(deliveryOrder.getAddressId()).orElse(null);
         if (address != null) {
             try {
@@ -109,5 +109,10 @@ public class DeliveryOrderService {
 
     public List<DeliveryOrder> findAll() {
         return context.getBean(DeliveryOrderRepository.class).findAll();
+    }
+
+    public Optional<DeliveryOrder> findById(Long id) {
+        return deliveryOrderRepository.findById(id);
+
     }
 }

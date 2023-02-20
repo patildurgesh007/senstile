@@ -28,6 +28,11 @@ public class User {
     @OneToMany(mappedBy="user")
     private List<Address> addresses;
 
+    public User(Long id, String firstName) {
+        this.id = id;
+        this.firstName = firstName;
+    }
+
     public Long getId() {
         return id;
     }

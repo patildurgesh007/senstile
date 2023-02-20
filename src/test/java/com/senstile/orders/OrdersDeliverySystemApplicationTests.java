@@ -3,11 +3,11 @@ package com.senstile.orders;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = OrdersDeliverySystemApplicationTests.class)
 class OrdersDeliverySystemApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }

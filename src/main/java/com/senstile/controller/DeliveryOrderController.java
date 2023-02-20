@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -52,6 +53,16 @@ public class DeliveryOrderController {
     public ResponseEntity findAll() {
         List<DeliveryOrder> deliveryOrders = deliveryOrderService.findAll();
         return new ResponseEntity(deliveryOrders, HttpStatus.OK);
+    }
+
+    @GetMapping("/deliveryOrder/{id}")
+    public ResponseEntity findById(Long id) {
+        Optional<DeliveryOrder> deliveryOrder =  deliveryOrderService.findById(id);
+        if(deliveryOrder.isPresent()) {
+            return new ResponseEntity(deliveryOrder, HttpStatus.OK);
+        }
+        return new ResponseEntity(Constants.MSG_USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+
     }
 
 }
