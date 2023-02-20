@@ -28,6 +28,9 @@ public class User {
     @OneToMany(mappedBy="user")
     private List<Address> addresses;
 
+    public User() {
+    }
+
     public User(Long id, String firstName) {
         this.id = id;
         this.firstName = firstName;

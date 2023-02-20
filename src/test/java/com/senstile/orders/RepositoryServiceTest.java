@@ -48,8 +48,8 @@ public class RepositoryServiceTest {
     @Test
     public void getAddressByIdTest()
     {
-        when(addressRepository.findById(new Long(1))).thenReturn(Optional.of(new Address(1L,new User(1L,"TESTUSER"),"some street 1", "New York", "US", "1234")));
-        Optional<Address> addressOptional = addressRepository.findById(1L);
+        when(addressRepository.findById(new Long(100))).thenReturn(Optional.of(new Address(new User(100L, "TESTUSER"),"some street 1", "New York", "US", "1234")));
+        Optional<Address> addressOptional = addressRepository.findById(100L);
         Assertions.assertNotNull(addressOptional.get());
         Address address = addressOptional.get();
         Assertions.assertEquals("New York", address.getCity());

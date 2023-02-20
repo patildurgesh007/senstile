@@ -1,51 +1,45 @@
 package com.senstile.orders;
 
-import com.senstile.controller.AddressController;
-import com.senstile.persistance.AddressRepository;
-import com.senstile.service.AddressService;
-import org.junit.jupiter.api.Assertions;
+
+import com.senstile.persistance.DeliveryOrder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@WebAppConfiguration
-public class DeliveryServiceTest {
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-    private MockMvc mockMvc;
+import static org.junit.Assert.assertEquals;
 
-    @Autowired
-    AddressController addressController;
+@Nested
+class DeliveryServiceTest  extends AbstractTest {
 
-    @Autowired
-    AddressService addressService;
-
-    @Autowired
-    AddressRepository addressRepository;
-
+    @Override
     @BeforeEach
-    public void setup() {
-        addressController = new AddressController();
-        addressService = new AddressService();
-        mockMvc = MockMvcBuilders.standaloneSetup(addressController)
-                .build();
+    public void setUp() {
+        super.setUp();
     }
 
-    @Test
-    public void allAddressesNotFoundTest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/allAddresses").contentType(MediaType.APPLICATION_JSON)).andReturn();
-        Assertions.assertEquals(404, mvcResult.getResponse().getStatus());
-    }
 
     @Test
-    public void allAddressesTest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/allAddresses").contentType(MediaType.APPLICATION_JSON)).andReturn();
-        Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
+    @Sql(scripts = "classpath:importTest.sql")
+    public void processOrderTest() throws Exception {
+        String uri = "http://localhost:7070/api/processDeliveryOrder/true";
+        List<Long> products = new ArrayList<Long>();
+        products.add(1L);
+        DeliveryOrder deliveryOrder = new DeliveryOrder(1L,10L,products, Instant.now());
+        String inputJson = super.mapToJson(deliveryOrder);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
     }
 
 

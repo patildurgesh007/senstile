@@ -25,8 +25,10 @@ public class Address {
     private String country;
     private String postalCode;
 
-    public Address(Long id, User user, String addressLine, String city, String country, String postalCode) {
-        this.id = id;
+    public Address() {
+    }
+
+    public Address(User user, String addressLine, String city, String country, String postalCode) {
         this.user = user;
         this.addressLine = addressLine;
         this.city = city;
@@ -38,6 +40,7 @@ public class Address {
         return id;
     }
 
+    
     public void setId(Long id) {
         this.id = id;
     }
